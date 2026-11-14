@@ -1,26 +1,67 @@
-name: Android CI
+name: Build Android app
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
+    env:
+      KEYSTORE_B64: ${{ secrets.MOONCHESS_KEYSTORE_BASE64 }}
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v4
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Capacitor
+        run: npm ci
+
+      - name: Copy the website into the Android project
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon -PmcVersionCode=${{ github.run_number }}
+
+      - name: Rename debug APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk MoonChess-debug-${{ github.run_number }}.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MoonChess-debug-apk
+          path: MoonChess-debug-${{ github.run_number }}.apk
+
+      - name: Build signed release (APK + Play Store bundle)
+        if: env.KEYSTORE_B64 != ''
+        working-directory: android
+        env:
+          MOONCHESS_KEYSTORE_PASSWORD: ${{ secrets.MOONCHESS_KEYSTORE_PASSWORD }}
+          MOONCHESS_KEY_ALIAS: ${{ secrets.MOONCHESS_KEY_ALIAS }}
+          MOONCHESS_KEY_PASSWORD: ${{ secrets.MOONCHESS_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/moonchess.jks"
+          export MOONCHESS_KEYSTORE_FILE="$RUNNER_TEMP/moonchess.jks"
+          ./gradlew assembleRelease bundleRelease --no-daemon -PmcVersionCode=${{ github.run_number }}
+          cp app/build/outputs/apk/release/app-release.apk ../MoonChess-${{ github.run_number }}.apk
+          cp app/build/outputs/bundle/release/app-release.aab ../MoonChess-${{ github.run_number }}.aab
+
+      - uses: actions/upload-artifact@v4
+        if: env.KEYSTORE_B64 != ''
+        with:
+          name: MoonChess-release
+          path: |
+            MoonChess-${{ github.run_number }}.apk
+            MoonChess-${{ github.run_number }}.aab
