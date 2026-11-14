@@ -1,0 +1,8 @@
+/* Fonts bundled inside the app so MoonChess looks right with no internet connection. */
+@font-face{font-family:"Orbitron";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/orbitron-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Exo 2";font-weight:600;font-style:normal;font-display:swap;src:url("../fonts/exo-2-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Exo 2";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/exo-2-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Nunito";font-weight:500;font-style:normal;font-display:swap;src:url("../fonts/nunito-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Nunito";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/nunito-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Nunito";font-weight:800;font-style:normal;font-display:swap;src:url("../fonts/nunito-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"Noto Sans Symbols 2";font-weight:400;font-style:normal;font-display:block;src:url("../fonts/noto-sans-symbols-2-chess.woff2") format("woff2")}

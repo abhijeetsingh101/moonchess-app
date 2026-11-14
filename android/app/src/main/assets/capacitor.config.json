@@ -1,0 +1,29 @@
+{
+	"appId": "in.moonchess.app",
+	"appName": "MoonChess",
+	"webDir": "www",
+	"backgroundColor": "#070a1f",
+	"android": {
+		"backgroundColor": "#070a1f",
+		"allowMixedContent": false,
+		"captureInput": true,
+		"webContentsDebuggingEnabled": false
+	},
+	"plugins": {
+		"SystemBars": {
+			"insetsHandling": "css",
+			"initialViewportFitValueHint": "cover",
+			"style": "DARK"
+		},
+		"SplashScreen": {
+			"launchShowDuration": 900,
+			"launchAutoHide": true,
+			"launchFadeOutDuration": 300,
+			"backgroundColor": "#070a1f",
+			"androidScaleType": "CENTER_CROP",
+			"showSpinner": false,
+			"splashFullScreen": false,
+			"splashImmersive": false
+		}
+	}
+}

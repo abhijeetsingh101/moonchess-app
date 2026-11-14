@@ -1,0 +1,228 @@
+/* VOICE: friendly space cadet, cute but futuristic, always encouraging
+   IDEA: a starship training academy; lessons are missions, the board is a holo-deck
+   PICTURE: glowing holo-board over a live particle starfield, Pip the robot pawn guiding you
+   COLOUR and TYPE: deep space indigo, cyan holo light, hot pink accent, gold energy; Orbitron + Exo 2 + Nunito
+   LAYOUT: top bar + views (home, learn, mission, play, puzzles, profile); bottom tab bar on phones */
+:root{color-scheme:dark;--bg:#070a1f;--ink:#e9f1ff;--soft:#9aa8d6;--card:#11173acc;--line:#2b3a7a;
+--cyan:#3ef2ff;--pink:#ff4fd8;--sun:#ffd84a;--violet:#8a5cff;--good:#6dffc4;
+--sl:#93a7f0;--sl2:#8097e8;--sd:#1d2a70;--sd2:#18225e;--glow:#3ef2ff;
+--pb:#c9d6ff;--pt:#5a6bd8;--pe:#3ef2ff}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 700px at 75% -10%,#2a1a6b 0,transparent 60%),radial-gradient(900px 600px at -10% 40%,#0d3a66 0,transparent 60%),var(--bg);
+background-attachment:fixed;color:var(--ink);font:17px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip;min-height:100vh}
+#space{position:fixed;inset:0;z-index:0;pointer-events:none}
+.moon{position:fixed;z-index:0;pointer-events:none;width:clamp(260px,34vw,460px);aspect-ratio:1;top:clamp(-160px,-10vw,-80px);right:clamp(-160px,-8vw,-70px);border-radius:50%;opacity:.42;
+background:radial-gradient(circle at 30% 62%,#0000 0 7%,#b9a77a55 7.5% 9%,#0000 9.5%),radial-gradient(circle at 58% 40%,#0000 0 5%,#b9a77a55 5.5% 6.8%,#0000 7.3%),radial-gradient(circle at 44% 24%,#0000 0 3%,#b9a77a66 3.4% 4.2%,#0000 4.6%),
+radial-gradient(circle at 35% 32%,#fffbe6,#efdcaa 45%,#b9a77a 78%,#6d6447);box-shadow:0 0 120px 20px #ffe9a033,inset -30px -40px 80px #0006}
+header,main,footer,.tabs{position:relative;z-index:1}
+h1,h2,h3,.btn,.chip,.tab,.nav a{font-family:"Exo 2",Nunito,sans-serif}
+button{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto}
+.glass{background:var(--card);border:1px solid #3ef2ff40;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+box-shadow:0 0 0 1px #0004,0 10px 40px #0008,inset 0 1px 0 #ffffff14}
+/* header */
+header{padding:10px max(4vw,14px);background:#070a1fcc;backdrop-filter:blur(8px);border-bottom:1px solid #3ef2ff33;position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.brand b{font:700 21px/1.1 Orbitron,"Exo 2",sans-serif;letter-spacing:.6px;text-shadow:0 0 14px #ffe7a088;white-space:nowrap}
+.logo{width:40px;height:40px;filter:drop-shadow(0 0 10px #ffe7a088)}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{color:var(--ink);text-decoration:none;font-weight:600;padding:9px 14px;border-radius:999px;border:1px solid transparent;font-size:16px}
+.nav a:hover,.nav a:focus-visible{border-color:#3ef2ff88;outline:none}
+.nav a.on{background:#3ef2ff1f;border-color:#3ef2ff88;box-shadow:0 0 14px #3ef2ff33}
+.hud{display:flex;gap:8px;align-items:center}
+.chip{border-radius:999px;padding:7px 13px;font-weight:600;white-space:nowrap;font-size:15px;display:inline-flex;align-items:center;gap:6px}
+.chip span{color:var(--cyan);text-shadow:0 0 8px #3ef2ff}
+.chip svg{width:16px;height:16px}
+.tabs{display:none}
+/* views */
+main{padding:clamp(18px,3vw,40px) max(4vw,14px) 60px}
+.view{display:none}.view.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+h2.title{font:700 clamp(28px,4vw,42px)/1.08 "Exo 2",sans-serif;margin:0 0 6px;text-wrap:balance;color:#fff;text-shadow:0 0 16px #3ef2ff66}
+.lede{color:var(--soft);margin:0 0 22px;max-width:62ch}
+h3{margin:0;font-size:21px;font-weight:700}
+.muted{color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:16px}
+.card{border-radius:20px;padding:18px}
+.card.click{cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:left;width:100%}
+.card.click:hover{transform:translateY(-3px);box-shadow:0 0 30px #3ef2ff44}
+.card.click:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.card.lock{opacity:.45;cursor:not-allowed}
+/* buttons */
+.btn{border:0;cursor:pointer;border-radius:999px;padding:11px 22px;min-height:46px;font-size:17px;font-weight:700;color:#fff;
+background:linear-gradient(90deg,var(--pink),var(--violet));box-shadow:0 0 22px #ff4fd866;transition:transform .1s,box-shadow .2s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{box-shadow:0 0 32px #ff4fd8aa}
+.btn:active{transform:scale(.97)}
+.btn.alt{background:#0b1030aa;border:1px solid #3ef2ff88;color:var(--ink);box-shadow:0 0 14px #3ef2ff22}
+.btn.small{min-height:40px;padding:8px 16px;font-size:15px}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+/* home */
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,3vw,36px);align-items:center;border-radius:28px;padding:clamp(18px,3vw,34px)}
+.hero .pipbig{width:clamp(110px,16vw,170px);height:auto;filter:drop-shadow(0 0 20px #3ef2ff66);animation:hover 3s ease-in-out infinite}
+.hero h2{font:700 clamp(28px,4.4vw,48px)/1.05 "Exo 2",sans-serif;margin:0 0 6px;color:#fff;text-shadow:0 0 18px #3ef2ff77;text-wrap:balance}
+.rankrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0 14px}
+.rank{font:700 14px/1 Orbitron,sans-serif;padding:8px 12px;border-radius:10px;background:#3ef2ff1f;border:1px solid #3ef2ff77;color:#bff9ff;letter-spacing:.5px}
+.bar{height:12px;border-radius:99px;background:#ffffff14;overflow:hidden;flex:1;min-width:140px;max-width:340px}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--pink));box-shadow:0 0 12px var(--cyan)}
+.homegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.homegrid .card{display:flex;flex-direction:column;gap:10px}
+.mini{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border-radius:10px;overflow:hidden;width:100%;max-width:220px;border:1px solid #3ef2ff44}
+.mini i{display:grid;place-items:center;background:var(--sl);font:clamp(12px,2vw,20px)/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;font-style:normal;font-variant-emoji:text}
+.mini i.d{background:var(--sd)}
+.mini .w{color:#fff;-webkit-text-stroke:.04em #0b1030;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103088,0 0 .14em color-mix(in srgb,var(--glow) 70%,transparent)}.mini .b{color:#11112b;-webkit-text-stroke:.035em #ffb3ee;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103066,0 0 .14em #ff4fd8aa}
+.tag{display:inline-block;font-size:13px;font-weight:800;padding:3px 10px;border-radius:99px;background:#ff4fd822;color:#ffc2f0;border:1px solid #ff4fd866}
+.tag.ok{background:#6dffc41f;color:var(--good);border-color:#6dffc466}
+/* learn */
+.chapter{margin-bottom:26px}
+.chapter header{all:unset;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.chapter .count{color:var(--soft);font-size:15px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:12px}
+.mission{display:flex;gap:12px;align-items:center;border-radius:18px;padding:12px 14px;min-height:64px}
+.mission .g{flex:0 0 42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#3ef2ff1a;color:var(--cyan);
+font:26px/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;text-shadow:0 0 10px var(--cyan);font-variant-emoji:text}
+.mission b{display:block;font:600 16px/1.2 "Exo 2",sans-serif}
+.mission small{color:var(--soft);font-size:13px}
+.mission .st{color:var(--sun);letter-spacing:2px;text-shadow:0 0 8px #ffd84a88}
+.mission.next{border-color:var(--pink);box-shadow:0 0 22px #ff4fd855}
+/* board & play area */
+.play{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(16px,3vw,36px);align-items:start}
+.boardbox{padding:clamp(8px,1.4vw,16px);border-radius:24px;position:relative;touch-action:none;background:linear-gradient(135deg,#ffffff1c,#ffffff08 40%,#3ef2ff10);backdrop-filter:blur(7px) saturate(1.5);-webkit-backdrop-filter:blur(7px) saturate(1.5);border:1px solid #ffffff3d;box-shadow:0 12px 44px #0008,inset 0 1px 0 #ffffff66,inset 0 -1px 0 #ffffff1a}
+.board{position:relative;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));aspect-ratio:1;border-radius:14px;overflow:hidden;width:100%;container-type:inline-size;
+box-shadow:0 0 40px color-mix(in srgb,var(--glow) 25%,transparent),inset 0 0 0 1px #ffffff22;border:1px solid #ffffff47;user-select:none;-webkit-user-select:none}
+.board::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(125deg,#ffffff1f 0,#ffffff08 24%,transparent 40%)}
+.sq{position:relative;overflow:hidden;min-height:0;display:grid;place-items:center;border:0;padding:0;margin:0;cursor:default;
+background:linear-gradient(145deg,color-mix(in srgb,var(--sl) 88%,transparent),color-mix(in srgb,var(--sl2) 80%,transparent));box-shadow:inset 1px 1px 0 #ffffff4d,inset -1px -1px 0 #0b103026}
+.sq.d{background:linear-gradient(145deg,color-mix(in srgb,var(--sd) 84%,transparent),color-mix(in srgb,var(--sd2) 76%,transparent));box-shadow:inset 1px 1px 0 #ffffff1c,inset -1px -1px 0 #00000033}
+.sq .c{position:absolute;font:800 clamp(9px,2.3cqi,13px)/1 "Exo 2",Nunito,sans-serif;color:var(--sd);pointer-events:none;z-index:1}.sq.d .c{color:var(--sl)}
+.sq .c.f{right:5%;bottom:4%}.sq .c.r{left:6%;top:5%}
+.pc{font:10.4cqi/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;font-variant-emoji:text;pointer-events:none;position:relative;z-index:2}
+.pc.w{color:#fff;-webkit-text-stroke:.04em #0b1030;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103088,0 0 .14em color-mix(in srgb,var(--glow) 70%,transparent)}
+.pc.b{color:#11112b;-webkit-text-stroke:.035em #ffb3ee;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103066,0 0 .14em #ff4fd8aa}
+.pc.mine{cursor:grab}
+.sq.own{cursor:pointer}
+.pc.dragging{opacity:.25}
+.ghost{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-55%) scale(1.15);font:56px/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;color:#fff;-webkit-text-stroke:.04em #0b1030;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103088,0 0 .14em color-mix(in srgb,var(--glow) 70%,transparent)}
+.ghost.b{color:#11112b;-webkit-text-stroke:.035em #ffb3ee;paint-order:stroke fill;text-shadow:0 .03em 0 #0b103066,0 0 .14em #ff4fd8aa}
+.star{position:absolute;inset:21%;width:58%;height:58%;pointer-events:none;filter:drop-shadow(0 0 6px #ffd84a) drop-shadow(0 0 14px #ffb300aa);animation:spin 6s linear infinite}
+.sq.can{cursor:pointer}
+.sq.can::after{content:"";position:absolute;width:30%;height:30%;border-radius:50%;background:var(--cyan);border:.5cqi solid #0b1030cc;box-shadow:0 0 12px var(--cyan);z-index:3;animation:pulse 1.4s ease-in-out infinite;pointer-events:none}
+.sq.can.hit::after{width:90%;height:90%;background:none;border:.7cqi solid var(--pink);box-shadow:0 0 12px var(--pink),inset 0 0 0 2px #0b1030aa}
+.sq.sel{box-shadow:inset 0 0 0 .6cqi var(--cyan),inset 0 0 0 999px #3ef2ff40}
+.sq.last{box-shadow:inset 0 0 0 999px #ffd84a73}
+.sq.chk{box-shadow:inset 0 0 0 999px #ff3b5c80,inset 0 0 26px 8px #ff3b5c}
+.sq.hint{box-shadow:inset 0 0 0 .7cqi var(--sun),inset 0 0 0 999px #ffd84a40}
+.sq.over{box-shadow:inset 0 0 0 3px #fff8}
+.sq.oops{animation:shake .4s}
+.sq:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{opacity:.55;transform:scale(.8)}}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes hover{50%{transform:translateY(-6px)}}
+.side{display:flex;flex-direction:column;gap:14px}
+[data-mood=happy],.happy{--po:0;--ph:1;--ms:0}
+[data-mood=oops],.oops{--ms:0;--mo:1}
+.pip[data-mood=happy]>svg{animation:hop .45s ease 2}
+.pip[data-mood=oops]>svg{animation:wobble .5s ease 1}
+@keyframes hop{50%{transform:translateY(-14px) scale(1.05)}}
+@keyframes wobble{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.pip{display:flex;gap:12px;align-items:flex-end}
+.pip>svg{flex:0 0 84px;height:104px;filter:drop-shadow(0 0 12px #3ef2ff66);animation:hover 3s ease-in-out infinite}
+.bubble{position:relative;border-radius:20px;padding:14px 18px;flex:1}
+.bubble h2{margin:0 0 4px;font-size:clamp(22px,2.8vw,30px);line-height:1.1;font-weight:700;text-wrap:balance;color:#fff;text-shadow:0 0 12px #3ef2ff88}
+.bubble p{margin:0}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.win{border-radius:20px;padding:14px 18px;font-weight:700;background:linear-gradient(135deg,#ffd84a26,#ff4fd826);border:1px solid #ffd84a88;box-shadow:0 0 30px #ffd84a44}
+.win .rate{font-size:28px;letter-spacing:4px;color:var(--sun);text-shadow:0 0 12px var(--sun)}
+.win.bad{background:#ff3b5c1a;border-color:#ff3b5c88;box-shadow:0 0 24px #ff3b5c33}
+.fact{color:var(--soft);font-size:15px;margin:0}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{border-radius:16px;padding:12px 16px;text-align:left;cursor:pointer;font-weight:700;min-height:48px;display:flex;gap:10px;align-items:center}
+.opt:hover{box-shadow:0 0 18px #3ef2ff44}
+.opt.ok{border-color:var(--good);box-shadow:0 0 18px #6dffc455}
+.opt.no{border-color:#ff3b5c;opacity:.7}
+.opt b{font:700 18px/1 "Exo 2",sans-serif;color:var(--cyan);min-width:56px}
+[hidden]{display:none!important}
+/* play setup */
+.bots{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:14px}
+.bot{display:flex;flex-direction:column;gap:8px;border-radius:20px;padding:18px;text-align:left;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.bot:hover{transform:translateY(-3px)}
+.bot.on{border-color:var(--pink);box-shadow:0 0 26px #ff4fd866}
+.bot svg{width:64px;height:64px}
+.bot b{font:700 20px/1.1 "Exo 2",sans-serif}
+.bot small{color:var(--soft);font-size:14px}
+.seg{display:inline-flex;border-radius:999px;padding:4px;gap:4px}
+.seg button{border:0;background:none;padding:8px 16px;border-radius:999px;cursor:pointer;font-weight:700;min-height:40px}
+.seg button.on{background:#3ef2ff26;box-shadow:inset 0 0 0 1px #3ef2ff99;color:#fff}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.setup .row{margin:16px 0}
+.opp{display:flex;align-items:center;gap:12px;border-radius:18px;padding:10px 14px}
+.opp svg{width:44px;height:44px;flex:0 0 44px}
+.opp b{display:block;font:700 17px/1.2 "Exo 2",sans-serif}
+.opp small{color:var(--soft)}
+.caps:empty{display:none}.capbox:not(:has(.caps:not(:empty))){display:none}.caps{font:22px/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;min-height:24px;letter-spacing:-2px;font-variant-emoji:text;color:#ff9be9}
+.caps.w{color:#eaffff}
+.moves{border-radius:18px;padding:10px 14px;max-height:200px;overflow-y:auto;font-size:15px;display:grid;grid-template-columns:34px 1fr 1fr;gap:2px 8px}
+.moves span:nth-child(3n+1){color:var(--soft)}
+.moves:empty::before{content:"No moves yet. Make the first one!";color:var(--soft);grid-column:1/-1}
+.thinking::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+/* puzzles */
+.daily{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px;align-items:center;border-radius:24px;padding:20px;margin-bottom:22px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px}
+.pz{border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:4px;cursor:pointer;text-align:left}
+.pz b{font:700 16px/1.2 "Exo 2",sans-serif}
+.pz small{color:var(--soft);font-size:13px}
+.pz.solved{border-color:#6dffc488}
+/* profile */
+.statgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px;margin-bottom:22px}
+.stat{border-radius:18px;padding:14px 16px}
+.stat b{display:block;font:700 30px/1.1 "Exo 2",sans-serif;color:#fff;text-shadow:0 0 12px #3ef2ff66}
+.stat small{color:var(--soft);font-size:14px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:12px;margin-bottom:24px}
+.badge{border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center}
+.badge svg{width:42px;height:42px;flex:0 0 42px}
+.badge b{display:block;font:700 15px/1.2 "Exo 2",sans-serif}
+.badge small{color:var(--soft);font-size:13px;line-height:1.3;display:block}
+.badge.off{opacity:.4;filter:grayscale(1)}
+.cos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px;margin-bottom:24px}
+.co{border-radius:18px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;align-items:flex-start;text-align:left}
+.co.on{border-color:var(--pink);box-shadow:0 0 20px #ff4fd855}
+.co[disabled]{opacity:.45;cursor:not-allowed}
+.co small{color:var(--soft);font-size:13px}
+.swatch{display:grid;grid-template-columns:repeat(4,1fr);width:100%;aspect-ratio:2;border-radius:10px;overflow:hidden}
+.co svg{width:56px;height:68px}
+.set{border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px;max-width:640px}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px}
+.sw{width:54px;height:30px;border-radius:99px;border:1px solid #3ef2ff88;background:#0b1030;position:relative;cursor:pointer;flex:0 0 54px}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--soft);transition:left .2s,background .2s}
+.sw[aria-checked=true]{background:#3ef2ff33}.sw[aria-checked=true]::after{left:27px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+textarea{width:100%;min-height:80px;border-radius:12px;background:#0b1030;color:var(--ink);border:1px solid #3ef2ff55;padding:10px;font:14px/1.4 ui-monospace,monospace}
+textarea:focus{outline:2px solid var(--cyan)}
+/* modal & toast */
+.modal{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:#03051099;padding:16px}
+.modal .box{border-radius:24px;padding:22px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:14px;text-align:center;align-items:center}
+.modal .box h3{font-size:26px;color:#fff;text-shadow:0 0 14px #3ef2ff88}
+.modal .box svg.pipm{width:90px;height:110px}
+.promo{display:flex;gap:10px;justify-content:center}
+.promo button{width:64px;height:64px;border-radius:16px;cursor:pointer;font:44px/1 "Noto Sans Symbols 2","Segoe UI Symbol",serif;color:#eaffff;text-shadow:0 0 8px var(--glow)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);opacity:0;visibility:hidden;z-index:80;border-radius:18px;padding:12px 18px;display:flex;gap:12px;align-items:center;transition:transform .35s,opacity .35s,visibility .35s;max-width:calc(100vw - 24px)}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+.toast svg{width:36px;height:36px;flex:0 0 36px}
+.toast b{display:block;font:700 16px/1.2 "Exo 2",sans-serif;color:var(--sun)}
+footer{padding:18px max(4vw,14px) 90px;color:var(--soft);font-size:14px;text-align:center}
+@media(max-width:900px){.homegrid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:820px){.play{grid-template-columns:minmax(0,1fr)}.nav{display:none}.hud{margin-left:auto}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:20;background:#070a1fee;backdrop-filter:blur(10px);border-top:1px solid #3ef2ff44;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--soft);text-decoration:none;font-size:12px;font-weight:600;padding:4px 0;min-height:48px;justify-content:center}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--cyan);text-shadow:0 0 8px var(--cyan)}
+.toast{bottom:84px}}
+@media(max-width:600px){.brand b{font-size:17px}.logo{width:32px;height:32px}.moon{opacity:.3}.hero{grid-template-columns:minmax(0,1fr);text-align:center;justify-items:center}
+.rankrow{justify-content:center}.hero .btns{justify-content:center}.daily{grid-template-columns:minmax(0,1fr)}.daily .mini{margin:0 auto}
+.pip>svg{flex-basis:62px;height:78px}.sq .c{font-size:8px}.chip.xp{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#070A1F</color>
+    <color name="colorPrimaryDark">#070A1F</color>
+    <color name="colorAccent">#3EF2FF</color>
+    <color name="moonchess_background">#070A1F</color>
+</resources>

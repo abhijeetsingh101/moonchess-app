@@ -1,0 +1,17 @@
+{
+  "name": "moonchess-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MoonChess Android app: the MoonChess website packaged with Capacitor.",
+  "scripts": {
+    "sync": "cap sync android",
+    "open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/splash-screen": "^8.0.2"
+  }
+}

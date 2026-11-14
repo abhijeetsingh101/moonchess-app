@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="MoonChess: learn chess the friendly way with Pip, bite-sized missions, puzzles and friendly bots.">
+<meta name="theme-color" content="#070a1f">
+<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>MoonChess</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/native.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cmask%20id%3D%22m%22%3E%3Crect%20width%3D%2248%22%20height%3D%2248%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2233%22%20cy%3D%2217%22%20r%3D%2216%22%20fill%3D%22%23000%22/%3E%3C/mask%3E%3Ccircle%20cx%3D%2222%22%20cy%3D%2225%22%20r%3D%2220%22%20fill%3D%22%23ffe7a0%22%20mask%3D%22url%28%23m%29%22/%3E%3Ccircle%20cx%3D%2233%22%20cy%3D%2223%22%20r%3D%224%22%20fill%3D%22%233ef2ff%22/%3E%3Cpath%20d%3D%22M29.5%2027.5h7l1.6%209h-10.2z%22%20fill%3D%22%233ef2ff%22/%3E%3Crect%20x%3D%2226.5%22%20y%3D%2236%22%20width%3D%2213%22%20height%3D%223.4%22%20rx%3D%221.7%22%20fill%3D%22%233ef2ff%22/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="moon" aria-hidden="true"></div>
+<canvas id="space" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="moonmark" viewBox="0 0 48 48">
+<defs><radialGradient id="mg" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fffbe6"/><stop offset=".55" stop-color="#ffe7a0"/><stop offset="1" stop-color="#e0b84e"/></radialGradient>
+<mask id="mc"><rect width="48" height="48" fill="#fff"/><circle cx="33" cy="17" r="16" fill="#000"/></mask></defs>
+<circle cx="22" cy="25" r="20" fill="url(#mg)" mask="url(#mc)"/>
+<circle cx="12" cy="30" r="2.2" fill="#e0b84e" opacity=".6"/><circle cx="17" cy="38" r="1.6" fill="#e0b84e" opacity=".6"/>
+<circle cx="33" cy="23" r="4" fill="#3ef2ff"/><path d="M29.5 27.5h7l1.6 9h-10.2z" fill="#3ef2ff"/><rect x="26.5" y="36" width="13" height="3.4" rx="1.7" fill="#3ef2ff"/>
+</symbol>
+<symbol id="pip" viewBox="0 0 100 124">
+<line x1="50" y1="14" x2="50" y2="4" stroke="#9fd8ff" stroke-width="3"/><circle cx="50" cy="4" r="4" fill="#ff4fd8"/>
+<ellipse cx="50" cy="120" rx="30" ry="4" fill="#3ef2ff55"/>
+<path d="M16 110h68a6 6 0 0 0-4-10H20a6 6 0 0 0-4 10z" fill="var(--pt)"/>
+<path d="M28 100c2-18 8-30 14-38h16c6 8 12 20 14 38z" fill="var(--pb)"/>
+<path d="M33 97c2-14 6-24 11-31" stroke="#fff9" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="50" cy="82" r="6" fill="var(--pe)"/><circle cx="50" cy="82" r="3" fill="#fff"/>
+<rect x="30" y="58" width="40" height="9" rx="4.5" fill="var(--pt)"/>
+<circle cx="50" cy="38" r="25" fill="var(--pb)"/>
+<rect x="31" y="27" width="38" height="22" rx="11" fill="#0b1240"/>
+<g style="opacity:var(--po,1)"><ellipse cx="42" cy="37" rx="4" ry="5" fill="var(--pe)"/><ellipse cx="58" cy="37" rx="4" ry="5" fill="var(--pe)"/>
+<circle cx="43" cy="35" r="1.5" fill="#fff"/><circle cx="59" cy="35" r="1.5" fill="#fff"/></g>
+<g style="opacity:var(--ph,0)" stroke="var(--pe)" stroke-width="2.6" fill="none" stroke-linecap="round"><path d="M37.5 39q4.5-6 9 0"/><path d="M53.5 39q4.5-6 9 0"/></g>
+<path d="M45 44q5 3 10 0" stroke="var(--pe)" stroke-width="2.4" fill="none" stroke-linecap="round" style="opacity:var(--ms,1)"/>
+<path d="M45 43.2h10q-1 4.2-5 4.2t-5-4.2z" fill="var(--pe)" style="opacity:var(--ph,0)"/>
+<ellipse cx="50" cy="45" rx="1.9" ry="2.3" fill="var(--pe)" style="opacity:var(--mo,0)"/>
+<ellipse cx="29" cy="47" rx="4" ry="2.5" fill="#ff9be9"/><ellipse cx="71" cy="47" rx="4" ry="2.5" fill="#ff9be9"/>
+<circle cx="38" cy="22" r="5" fill="#fff8"/>
+</symbol>
+<symbol id="botface" viewBox="0 0 64 64">
+<rect x="8" y="14" width="48" height="40" rx="14" fill="currentColor" opacity=".25"/>
+<rect x="8" y="14" width="48" height="40" rx="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
+<rect x="16" y="24" width="32" height="16" rx="8" fill="#0b1240"/>
+<circle cx="25" cy="32" r="3.5" fill="currentColor"/><circle cx="39" cy="32" r="3.5" fill="currentColor"/>
+<path d="M26 46h12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="32" y1="14" x2="32" y2="6" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="5" r="3" fill="currentColor"/>
+</symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.2l-5.9 3.2 1.3-6.5L2.5 9.3l6.6-.8z" fill="#ffe27a" stroke="#fff6c2" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+<symbol id="flame" viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z" fill="#ff8a3d"/><path d="M12 12c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1 1-2 1-3 1 1 2 0 2-2z" fill="#ffd84a"/></symbol>
+<symbol id="medal" viewBox="0 0 42 42"><path d="M14 2h6l-3 14h-6zM28 2h-6l3 14h6z" fill="#8a5cff"/><circle cx="21" cy="26" r="13" fill="#ffd84a"/><circle cx="21" cy="26" r="9" fill="none" stroke="#fff6c2" stroke-width="2"/><path d="M21 19l2.2 4.4 4.8.6-3.5 3.3.9 4.7-4.4-2.4-4.4 2.4.9-4.7-3.5-3.3 4.8-.6z" fill="#fff6c2"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3l10 5-10 5L2 8zM6 10.5V16c3 2.5 9 2.5 12 0v-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M9 21h6M8 18h8l-1-5 2-3-3-1-2-5-2 5-3 1 2 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-puz" viewBox="0 0 24 24"><path d="M4 8h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-me" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1-5 5-7 8-7s7 2 8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="MoonChess home"><svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><use href="#moonmark"/></svg><b>MoonChess</b></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-v="home">Home</a><a href="#learn" data-v="learn">Learn</a><a href="#play" data-v="play">Play</a><a href="#puzzles" data-v="puzzles">Puzzles</a><a href="#me" data-v="me">Me</a>
+    </nav>
+    <div class="hud">
+      <span class="chip glass" title="Days in a row"><svg aria-hidden="true"><use href="#flame"/></svg><span id="hudStreak">0</span></span>
+      <span class="chip glass xp" title="Experience points">XP <span id="hudXp">0</span></span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="view wrap" id="v-home"></section>
+  <section class="view wrap" id="v-learn"></section>
+  <section class="view wrap" id="v-train">
+    <div class="play">
+      <div class="boardbox glass"><div class="board" id="tBoard" aria-label="Chess board"></div></div>
+      <div class="side">
+        <div class="row"><button class="btn alt small" id="tBack">← Back</button><span class="muted" id="tCrumb"></span></div>
+        <div class="pip"><svg viewBox="0 0 100 124" aria-hidden="true"><use href="#pip"/></svg>
+          <div class="bubble glass" aria-live="polite"><h2 id="tTitle"></h2><p id="tSay"></p></div></div>
+        <div class="stats" id="tStats"></div>
+        <div class="opts" id="tOpts"></div>
+        <div class="win" id="tWin" hidden aria-live="polite"><div class="rate" id="tRate"></div><div id="tWinText"></div></div>
+        <div class="btns"><button class="btn" id="tNext" hidden>Next →</button><button class="btn alt" id="tHint">Hint</button><button class="btn alt" id="tReset">Try again</button></div>
+        <p class="fact" id="tFact"></p>
+      </div>
+    </div>
+  </section>
+  <section class="view wrap" id="v-play"></section>
+  <section class="view wrap" id="v-puzzles"></section>
+  <section class="view wrap" id="v-me"></section>
+</main>
+<footer><b style="color:#ffe7a0">MoonChess</b> · Made for curious beginners. Every grandmaster started with mission one.</footer>
+
+<nav class="tabs" aria-label="Main">
+  <a class="tab" href="#home" data-v="home"><svg aria-hidden="true"><use href="#i-home"/></svg>Home</a>
+  <a class="tab" href="#learn" data-v="learn"><svg aria-hidden="true"><use href="#i-learn"/></svg>Learn</a>
+  <a class="tab" href="#play" data-v="play"><svg aria-hidden="true"><use href="#i-play"/></svg>Play</a>
+  <a class="tab" href="#puzzles" data-v="puzzles"><svg aria-hidden="true"><use href="#i-puz"/></svg>Puzzles</a>
+  <a class="tab" href="#me" data-v="me"><svg aria-hidden="true"><use href="#i-me"/></svg>Me</a>
+</nav>
+<div id="modal"></div>
+<div class="toast glass" id="toast" role="status"><svg aria-hidden="true"><use href="#medal"/></svg><div><b id="toastT"></b><span id="toastD"></span></div></div>
+
+<script src="js/engine.js"></script>
+<script src="js/content.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/app.js"></script>
+<script src="js/native.js"></script>
+</body>
+</html>
