@@ -18,7 +18,7 @@
 
     <!-- Launch theme: the moon logo on deep space while the app starts. -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
-        <item name="android:background">@drawable/splash</item>
+        <item name="android:windowBackground">@color/moonchess_background</item>
         <item name="windowSplashScreenBackground">@color/moonchess_background</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
         <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>

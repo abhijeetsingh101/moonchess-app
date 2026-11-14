@@ -2,10 +2,12 @@
    Adds safe-area spacing for notches and system bars, touch polish,
    and a landscape layout that fits the board to short phone screens. */
 :root{
-  --sat:max(env(safe-area-inset-top,0px),var(--safe-area-inset-top,0px));
-  --sab:max(env(safe-area-inset-bottom,0px),var(--safe-area-inset-bottom,0px));
-  --sal:max(env(safe-area-inset-left,0px),var(--safe-area-inset-left,0px));
-  --sar:max(env(safe-area-inset-right,0px),var(--safe-area-inset-right,0px));
+  /* env() is 0 when Android already keeps the page below the system bars,
+     and the real size when the page runs edge to edge, so it is never added twice */
+  --sat:env(safe-area-inset-top,0px);
+  --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px);
+  --sar:env(safe-area-inset-right,0px);
 }
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:none}

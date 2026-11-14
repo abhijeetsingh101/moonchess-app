@@ -272,6 +272,7 @@ function route() {
   let v = location.hash.slice(1) || 'home';
   if (!VIEWS.includes(v)) v = 'home';
   if (v === 'mission' && !T) v = 'learn';
+  if (v !== 'play') document.body.classList.remove('ingame');
   document.querySelectorAll('.view').forEach(x => x.classList.remove('on'));
   $(v === 'mission' ? 'v-train' : 'v-' + v).classList.add('on');
   const navV = v === 'mission' ? (T && T.kind === 'mission' ? 'learn' : 'puzzles') : v;
@@ -545,6 +546,7 @@ let G = null;
 const PIECE_SET = { P: 8, N: 2, B: 2, R: 2, Q: 1 };
 function vPlay() {
   if (G && !G.closed) return renderGame();
+  document.body.classList.remove('ingame');
   const pr = S.prefs;
   $('v-play').innerHTML = `<div class="setup"><h2 class="title">Play a game</h2><p class="lede">Pick an opponent. Start with Sleepy Bot: it makes lots of mistakes, so you can practise winning.</p>
   <div class="bots">${K.bots.map(b => `<button class="bot glass${pr.bot === b.id ? ' on' : ''}" data-b="${b.id}" style="color:${b.color}"><svg aria-hidden="true"><use href="#botface"/></svg>
@@ -568,19 +570,24 @@ function startGame() {
 }
 function renderGame(fresh) {
   const bot = K.bots.find(b => b.id === G.bot);
-  $('v-play').innerHTML = `<div class="play">
-    <div class="boardbox glass"><div class="board" id="gBoard" aria-label="Chess board"></div></div>
-    <div class="side">
-      <div class="opp glass" style="color:${G.friend ? '#6dffc4' : bot.color}">${G.friend ? pipSvg() : '<svg aria-hidden="true"><use href="#botface"/></svg>'}
+  document.body.classList.add('ingame');
+  $('v-play').innerHTML = `<div class="arena">
+    <div class="atop glass">
+      <button class="aexit" id="gExit" aria-label="Leave the game screen (your game is kept)">←</button>
+      <div class="opp" style="color:${G.friend ? '#6dffc4' : bot.color}">${G.friend ? pipSvg() : '<svg aria-hidden="true"><use href="#botface"/></svg>'}
         <div><b style="color:#fff">${G.friend ? 'Friend match' : esc(bot.name)}</b><small id="gStatus"></small></div></div>
-      <div class="pip">${pipSvg()}<div class="bubble glass" aria-live="polite"><p id="gSay"></p></div></div>
-      <div class="glass card capbox" style="padding:12px 16px"><div class="caps w" id="gCapW" title="Pieces captured by White"></div><div class="caps" id="gCapB" title="Pieces captured by Black"></div></div>
-      <div class="moves glass" id="gMoves" aria-label="Move list"></div>
-      <div class="btns"><button class="btn alt small" id="gHint">Hint</button><button class="btn alt small" id="gUndo">Undo</button><button class="btn alt small" id="gFlip">Flip board</button><button class="btn alt small" id="gEnd">Resign</button></div>
+      <div class="acaps"><div class="caps w" id="gCapW" title="Pieces captured by White"></div><div class="caps" id="gCapB" title="Pieces captured by Black"></div></div>
+    </div>
+    <div class="aboard"><div class="boardbox glass"><div class="board" id="gBoard" aria-label="Chess board"></div></div></div>
+    <div class="moves glass" id="gMoves" aria-label="Move list"></div>
+    <div class="abot">
+      <div class="pip aline glass">${pipSvg()}<p id="gSay" aria-live="polite"></p></div>
+      <div class="abtns"><button class="btn alt small" id="gHint">Hint</button><button class="btn alt small" id="gUndo">Undo</button><button class="btn alt small" id="gFlip">Flip</button><button class="btn alt small" id="gEnd">Resign</button></div>
     </div></div>`;
   G.board = new Board($('gBoard'), m => playerMove(m));
   G.board.set(G.pos, { mine: G.friend ? G.pos.turn : G.mine, flip: G.flip, last: G.hist.length ? [G.hist.at(-1).m.from, G.hist.at(-1).m.to] : null, locked: G.over || G.busy });
   $('gHint').onclick = gHint; $('gUndo').onclick = gUndo;
+  $('gExit').onclick = () => go('home');
   $('gFlip').onclick = () => { G.flip = !G.flip; G.board.set(G.pos, { flip: G.flip }); };
   $('gEnd').onclick = async () => { if (G.over) { G.closed = true; return vPlay(); }
     if (await ask('Resign this game?', 'No worries, every game teaches you something.', 'Yes, resign', 'Keep playing')) endGame('resign'); };

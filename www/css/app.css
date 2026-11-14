@@ -171,6 +171,43 @@ background:linear-gradient(145deg,color-mix(in srgb,var(--sl) 88%,transparent),c
 .moves:empty::before{content:"No moves yet. Make the first one!";color:var(--soft);grid-column:1/-1}
 .thinking::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dots 1.2s steps(4) infinite}
 @keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+/* game screen: full-screen board, nothing scrolls */
+body.ingame{overflow:hidden;height:100vh;height:100dvh;overscroll-behavior:none}
+body.ingame header,body.ingame footer,body.ingame .tabs{display:none!important}
+body.ingame main{padding:0}
+body.ingame .view.on{animation:none}
+.arena{position:fixed;inset:0;z-index:5;display:grid;gap:10px;
+padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"top" "board" "bot"}
+.atop{grid-area:top;display:flex;align-items:center;gap:10px;border-radius:18px;padding:8px 10px;min-width:0}
+.aexit{flex:0 0 44px;height:44px;border-radius:14px;border:1px solid #3ef2ff66;background:#0b1030aa;color:var(--ink);font:700 22px/1 "Exo 2",sans-serif;cursor:pointer}
+.aexit:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.atop .opp{flex:1;min-width:0;padding:0;gap:10px}
+.atop .opp svg{width:38px;height:38px;flex:0 0 38px}
+.atop .opp b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acaps{display:flex;flex-direction:column;align-items:flex-end;gap:2px;max-width:42%}
+.acaps .caps{font-size:16px;min-height:0;white-space:nowrap;overflow:hidden;max-width:100%}
+.aboard{grid-area:board;min-height:0;min-width:0;container-type:size;display:grid;place-items:center}
+.arena .boardbox{width:min(100cqw,100cqh);padding:clamp(5px,1.2cqw,12px);border-radius:20px}
+.arena #gMoves{display:none}
+.abot{grid-area:bot;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pip.aline{display:flex;align-items:center;gap:10px;border-radius:16px;padding:8px 12px;min-height:58px}
+.pip.aline>svg{flex:0 0 34px;height:42px;animation:none}
+.aline p{margin:0;font-size:15px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.abtns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.abtns .btn{min-height:44px;padding:8px 4px;font-size:15px}
+/* wide or sideways screens: board on the left, controls on the right */
+@media (min-aspect-ratio:5/4){
+.arena{grid-template-columns:minmax(0,1fr) minmax(250px,360px);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"board top" "board mid" "board bot";gap:12px}
+.arena #gMoves{display:grid;grid-area:mid;max-height:none;min-height:0;align-content:start}
+.abtns{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-aspect-ratio:5/4) and (max-height:480px){
+.arena #gMoves{display:none}.arena{grid-template-areas:"board top" "board ." "board bot";gap:8px}
+.abtns{grid-template-columns:repeat(4,minmax(0,1fr))}.abtns .btn{font-size:14px;min-height:40px}
+.pip.aline{min-height:0;padding:6px 10px}.atop{padding:6px 8px}.aexit{flex-basis:40px;height:40px}
+}
+@media (max-width:359px){.abtns{gap:6px}.abtns .btn{font-size:14px}.aline p{font-size:14px}}
 /* puzzles */
 .daily{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px;align-items:center;border-radius:24px;padding:20px;margin-bottom:22px}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px}
